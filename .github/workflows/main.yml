@@ -42,4 +42,4 @@ jobs:
         npm install cloudscraper
     - name: Starting Flood...
       run: |
-        node cloudattack.py --attack ${{ github.event.inputs.urltgt }} --threads${{ github.event.inputs.thread }} --proxy ${{ github.event.inputs.proxy }} --updateproxy ${{ github.event.inputs.upproxy }}
+        node cloudattack.py --attack "${{ github.event.inputs.urltgt }}" --threads ${{ github.event.inputs.thread }} --proxy ${{ github.event.inputs.proxy }} --updateproxy ${{ github.event.inputs.upproxy }}
